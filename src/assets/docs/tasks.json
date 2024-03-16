@@ -1,0 +1,149 @@
+[
+  {
+    "id": 1,
+    "caption": "Úloha 1: Úvod do SQL injection",
+    "task": "Máte na starosti bezpečnosť webových stránok. Na jednej zo stránok ste objavili pole na vyhľadávanie, ktoré priamo používa vstup od používateľa vo svojej SQL query na databázu. Skúste injektovať SQL kód, ktorý vymaže všetky záznamy z tabuľky používateľov.",
+    "inputs": [
+      {
+        "type": "text",
+        "label": "Heslo používateľa"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "caption": "Úloha 2: Union-based SQL injection",
+    "task": "Webová aplikácia pri vyhľadávaní produktov používa SQL query, ktorého výsledok je zobrazený na stránke. Využite 'UNION SELECT' na získanie citlivých informácií z iných tabuliek, ako napríklad zoznamu používateľov alebo ich hesiel.",
+    "inputs": [
+      {
+        "type": "text",
+        "label": "Vstup pre vyhľadávanie"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "caption": "Úloha 3: Blind SQL injection",
+    "task": "Na stránke sa nachádza pole na prihlásenie používateľov. Skúste použiť 'blind SQL injection' na zistenie platného používateľského mena a hesla.",
+    "inputs": [
+      {
+        "type": "text",
+        "label": "Používateľské meno"
+      },
+      {
+        "type": "text",
+        "label": "Heslo"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "caption": "Úloha 4: Error-based SQL injection",
+    "task": "Webová aplikácia vyhľadáva produkty podľa názvu. Skúste vložiť škodlivý SQL kód, ktorý spôsobí chybu v SQL dotaze a vráti citlivé informácie v chybovej správe.",
+    "inputs": [
+      {
+        "type": "text",
+        "label": "Názov produktu"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "caption": "Úloha 5: Time-based SQL injection",
+    "task": "Na webovej stránke sa nachádza vyhľadávanie produktov. Skúste vložiť SQL kód, ktorý spôsobí oneskorenie vyhľadávacieho procesu, ak sa podmienka správne vyhodnotí, čo naznačuje úspešné vykonanie SQL dotazu.",
+    "inputs": [
+      {
+        "type": "text",
+        "label": "Názov produktu"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "caption": "Úloha 6: Out-of-band SQL injection",
+    "task": "Skúste vykonávať SQL dotazy, ktoré používajú mimo-bandové komunikačné kanály, ako napríklad DNS alebo HTTP, na prenos citlivých informácií z webového servera na vzdialený server pod kontrolou útočníka.",
+    "inputs": [
+      {
+        "type": "text",
+        "label": "Dotaz pre vykonanie"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "caption": "Úloha 7: Tautológie SQL injection",
+    "task": "Skúste vložiť tautologický výraz do vyhľadávacieho poľa, aby ste obišli overenie údajov a získali prístup k citlivým informáciám.",
+    "inputs": [
+      {
+        "type": "text",
+        "label": "Vstup pre vyhľadávanie"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "caption": "Úloha 8: Malformované dotazy SQL injection",
+    "task": "Skúste vložiť do vyhľadávacieho poľa malformovaný SQL dotaz, ktorý spôsobí chybu vo vykonávaní SQL dotazu a umožní získanie citlivých informácií.",
+    "inputs": [
+      {
+        "type": "text",
+        "label": "Vstup pre vyhľadávanie"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "caption": "Úloha 9: Union dotazy SQL injection",
+    "task": "Vložte do vyhľadávacieho poľa SQL kód, ktorý využije UNION operátor na spojenie výsledkov s inou tabuľkou a získanie dodatočných informácií.",
+    "inputs": [
+      {
+        "type": "text",
+        "label": "Vstup pre vyhľadávanie"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "caption": "Úloha 10: Piggy-backed dotazy SQL injection",
+    "task": "Vložte do vyhľadávacieho poľa SQL kód, ktorý spustí ďalší SQL dotaz po hlavnom dotaze, aby ste získali dodatočné informácie.",
+    "inputs": [
+      {
+        "type": "text",
+        "label": "Vstup pre vyhľadávanie"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "caption": "Úloha 11: Odvodzovanie SQL injection",
+    "task": "Vložte do vyhľadávacieho poľa SQL kód, ktorý využije odvodzovanie na získanie citlivých informácií z databázy.",
+    "inputs": [
+      {
+        "type": "text",
+        "label": "Vstup pre vyhľadávanie"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "caption": "Úloha 12: Uložené procedúry SQL injection",
+    "task": "Skúste vložiť do vyhľadávacieho poľa SQL kód, ktorý zneužije uložené procedúry v databáze na získanie citlivých informácií.",
+    "inputs": [
+      {
+        "type": "text",
+        "label": "Vstup pre vyhľadávanie"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "caption": "Úloha 13: Kombinácia rôznych typov injekcií",
+    "task": "Vytvorte kombináciu rôznych typov SQL injection, aby ste vytvorili komplexný útok na aplikáciu a získali prístup k citlivým informáciám.",
+    "inputs": [
+      {
+        "type": "text",
+        "label": "Vstup pre vyhľadávanie"
+      }
+    ]
+  }
+]

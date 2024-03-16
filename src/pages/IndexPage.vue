@@ -1,49 +1,85 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+    <div
+      class="full-width row items-center justify-evenly"
+      v-for="task in tasks"
+      :key="task.id"
+    >
+      <q-card
+        flat
+        bordered
+        class="card q-ma-sm"
+        style="max-width: 600px; width: 600px"
+      >
+        <q-card-section>
+          <div class="text-h6">{{ task.caption }}</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          {{ task.task }}
+        </q-card-section>
+        <q-separator inset />
+        <!-- Loop through task inputs -->
+        <div v-for="(input, index) in task.inputs" :key="index">
+          <template v-if="input.type === 'text'">
+            <q-input
+              class="q-ma-md"
+              outlined
+              v-model="input.value"
+              :label="input.label"
+            />
+          </template>
+          <template v-else-if="input.type === 'number'">
+            <q-input
+              class="q-ma-md"
+              outlined
+              v-model.number="input.value"
+              type="number"
+              :label="input.label"
+            />
+          </template>
+          <template v-else-if="input.type === 'dropdown'">
+            <q-select
+              class="q-ma-md"
+              outlined
+              v-model="input.selectedOption"
+              :options="input.options"
+              :label="input.label"
+            />
+          </template>
+        </div>
+        <div class="row">
+          <q-space />
+          <q-btn color="primary q-ma-md" label="Potvrdiť" />
+        </div>
+      </q-card>
+    </div>
   </q-page>
 </template>
 
 <script lang="ts">
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted, watch } from 'vue';
+import { useTaskStore } from 'src/stores/taskStore';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { ExampleComponent },
-  setup () {
-    const todos = ref<Todo[]>([
-      {
-        id: 1,
-        content: 'ct1'
-      },
-      {
-        id: 2,
-        content: 'ct2'
-      },
-      {
-        id: 3,
-        content: 'ct3'
-      },
-      {
-        id: 4,
-        content: 'ct4'
-      },
-      {
-        id: 5,
-        content: 'ct5'
-      }
-    ]);
-    const meta = ref<Meta>({
-      totalCount: 1200
+  setup() {
+    const taskStore = useTaskStore();
+    const tasks = ref(taskStore.tasks);
+
+    onMounted(() => {
+      taskStore.loadTasks();
     });
-    return { todos, meta };
-  }
+
+    // Watch for changes in taskStore.tasks and update the local tasks reference
+    watch(
+      () => taskStore.tasks,
+      (newTasks) => {
+        tasks.value = newTasks;
+      }
+    );
+
+    return { tasks, text: ref('') };
+  },
 });
 </script>
