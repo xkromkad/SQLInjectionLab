@@ -18,4 +18,6 @@ export interface Task {
   caption: string;
   task: string;
   inputs: Input[];
+  solved: boolean;
+  opened: boolean;
 }

@@ -10,7 +10,7 @@ export const useTaskStore = defineStore('tasks', {
       try {
         const response = await fetch('/src/assets/docs/tasks.json');
         const tasksData = await response.json();
-        this.tasks = tasksData.map((task: Task) => ({
+        this.tasks = tasksData.map((task: Task, index: number) => ({
           id: task.id,
           caption: task.caption,
           task: task.task,
@@ -20,6 +20,8 @@ export const useTaskStore = defineStore('tasks', {
             label: input.label,
             options: input.options || [],
           })),
+          solved: false,
+          opened: index === 0,
         }));
       } catch (error) {
         console.error('Error loading tasks:', error);
