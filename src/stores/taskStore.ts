@@ -19,9 +19,11 @@ export const useTaskStore = defineStore('tasks', {
             type: input.type,
             label: input.label,
             options: input.options || [],
+            userAnswer: '',
           })),
           solved: false,
           opened: index === 0,
+          correctAnswer: task.correctAnswer,
         }));
       } catch (error) {
         console.error('Error loading tasks:', error);

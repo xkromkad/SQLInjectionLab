@@ -1,105 +1,103 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="lhh Lpr lff">
+    <q-header class="header" id="header">
+      <div class="box"></div>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
+        <q-img
+          :src="injection"
+          alt="Logo SQL injection lab"
+          class="q-my-sm"
+          width="30px"
         />
-
-        <q-toolbar-title> SQL Injection lab </q-toolbar-title>
-
+        <q-space />
+        <q-tabs v-model="tab" no-caps class="text-dark" dense>
+          <q-tab name="Login" icon="person" />
+        </q-tabs>
       </q-toolbar>
+      <div class="intro row justify-center text-dark items-center">
+        <div
+          class="col-md-6 col-xs-12 flex justify-center items-center q-mb-md"
+        >
+          <div
+            class="text-h1 text-left title text-weight-medium non-selectable"
+          >
+            SQL<br />Injection<br />Lab
+          </div>
+          <div class="vl q-ml-md"></div>
+        </div>
+        <div
+          class="col-md-6 col-xs-12 q-my-md flex items-center justify-center"
+        >
+          <div class="row">
+            <div
+              class="col-12 text-body1 text-weight-medium info q-mb-lg non-selectable"
+            >
+              Laboratórium pre bezpečné experimentovanie,<br />
+              s útokom SQL Injection!
+            </div>
+            <q-btn
+              no-caps
+              outline
+              rounded
+              label="Poďme na to!"
+              class="q-mb-lg"
+              @click="scrollToElement('tasks')"
+            ></q-btn>
+          </div>
+        </div>
+      </div>
     </q-header>
-
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer class="text-dark">
+      <div class="row">
+        <div class="box"></div>
+        <div class="q-ma-lg">
+          <div class="text-body1 items-center">SQL injection lab</div>
+          <div class="text-body1 items-center">Dávid Kromka</div>
+          <a
+            clickable
+            href="mailto:xkromkad@gmail.com"
+            class="text-body1 items-center text-dark"
+          >
+            xkromkad@gmail.com
+          </a>
+        </div>
+        <q-space />
+        <div class="q-ma-lg">
+          <div class="text-body1 items-center">FIIT STU</div>
+        </div>
+      </div>
+    </q-footer>
   </q-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import EssentialLink from 'components/EssentialLink.vue';
-
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
-];
+import { defineComponent } from 'vue';
+import injection from 'src/assets/icons/injection.svg';
 
 export default defineComponent({
   name: 'MainLayout',
 
-  components: {
-    EssentialLink,
-  },
-
   setup() {
-    const leftDrawerOpen = ref(false);
+    const scrollToElement = (tabValue: string) => {
+      const target = document.getElementById(tabValue);
+      const headerHeight = document.querySelector('header')?.offsetHeight || 0;
 
-    return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
+      if (target) {
+        const offsetPosition = headerHeight;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth',
+        });
+      }
     };
+    return { scrollToElement, injection };
   },
 });
 </script>
+
+<style src="src/assets/styles/layout.scss"></style>

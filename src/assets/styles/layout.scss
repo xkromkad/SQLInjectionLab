@@ -1,0 +1,34 @@
+.q-header,
+.q-footer {
+  background-color: #fff8da;
+}
+.vl {
+  border-left: 6px solid;
+  height: calc(100px + 5vw);
+}
+.title {
+  font-size: calc(35px + 2vw);
+  line-height: calc(35px + 2vw);
+}
+.info {
+  font-size: calc(12px + 1vw);
+}
+.kids {
+  max-width: 350px;
+}
+.intro {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-inline: 15px;
+}
+.box {
+  height: 100%;
+  width: 100vw;
+  background-color: #fdf0b7;
+  clip-path: polygon(0 100%, 100% 100%, 100% 0);
+  z-index: -99;
+  position: absolute;
+}
+.q-layout {
+  overflow: hidden;
+}

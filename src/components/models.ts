@@ -10,6 +10,7 @@ export interface Meta {
 export interface Input {
   type: 'number' | 'text' | 'dropdown';
   label: string;
+  userAnswer: string;
   options?: string[];
 }
 
@@ -20,4 +21,5 @@ export interface Task {
   inputs: Input[];
   solved: boolean;
   opened: boolean;
+  correctAnswer: string;
 }

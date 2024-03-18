@@ -1,16 +1,6 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <q-linear-progress
-      stripe
-      rounded
-      size="20px"
-      :value="
-        tasks.filter((task) => task.solved === true).length / tasks.length
-      "
-      color="green"
-      class="q-mt-sm"
-      style="max-width: 600px; width: 600px"
-    />
+  <q-page class="row items-center justify-evenly q-mb-lg">
+    <div style="width: 600px; margin-top: 100px"></div>
     <div
       class="full-width row items-center justify-evenly"
       v-for="task in tasks"
@@ -83,12 +73,44 @@
             </div>
             <div class="row">
               <q-space />
-              <q-btn color="primary q-ma-md" label="Potvrdiť" />
+              <q-btn
+                color="primary"
+                class="text-primary q-ma-md"
+                label="Potvrdiť"
+              />
             </div>
           </div>
         </q-slide-transition>
       </q-card>
     </div>
+    <q-page-sticky position="top" :offset="[0, 0]">
+      <div class="bg-white q-py-sm q-mx-lg full-width tasks" id="tasks">
+        <q-linear-progress
+          stripe
+          rounded
+          size="20px"
+          :value="
+            tasks.filter((task) => task.solved === true).length / tasks.length
+          "
+          color="green"
+          class="q-mt-sm"
+          style="max-width: 600px; width: 95vw"
+        />
+        <div class="row justify-center q-my-xs">
+          <div class="text-body1 q-mx-sm">
+            {{ tasks.filter((task) => task.solved === true).length }} /
+            {{ tasks.length }}
+          </div>
+          <q-btn
+            size="sm"
+            round
+            color="primary"
+            class="text-primary"
+            icon="refresh"
+          />
+        </div>
+      </div>
+    </q-page-sticky>
   </q-page>
 </template>
 
