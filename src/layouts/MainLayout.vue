@@ -3,15 +3,16 @@
     <q-header class="header" id="header">
       <div class="box"></div>
       <q-toolbar>
-        <q-img
-          :src="injection"
-          alt="Logo SQL injection lab"
-          class="q-my-sm"
-          width="30px"
-        />
+        <q-btn @click="window.location.href = '/'" class="q-my-sm" flat>
+          <q-img :src="injection" alt="Logo SQL injection lab" width="30px" />
+        </q-btn>
         <q-space />
-        <q-tabs v-model="tab" no-caps class="text-dark" dense>
-          <q-tab name="Login" icon="person" />
+        <q-tabs no-caps class="text-dark" dense>
+          <q-tab
+            name="Login"
+            icon="person"
+            @click="window.location.href = '/auth/login'"
+          />
         </q-tabs>
       </q-toolbar>
       <div class="intro row justify-center text-dark items-center">
@@ -32,7 +33,7 @@
             <div
               class="col-12 text-body1 text-weight-medium info q-mb-lg non-selectable"
             >
-              Laboratórium pre bezpečné experimentovanie,<br />
+              Laboratórium pre bezpečné experimentovanie <br />
               s útokom SQL Injection!
             </div>
             <q-btn
@@ -86,7 +87,10 @@ export default defineComponent({
     const scrollToElement = (tabValue: string) => {
       const target = document.getElementById(tabValue);
       const headerHeight = document.querySelector('header')?.offsetHeight || 0;
-
+      if (window.location.pathname !== '/') {
+        // Redirect to the index page if not already there
+        window.location.href = '/';
+      }
       if (target) {
         const offsetPosition = headerHeight;
         window.scrollTo({
@@ -95,7 +99,7 @@ export default defineComponent({
         });
       }
     };
-    return { scrollToElement, injection };
+    return { scrollToElement, injection, window };
   },
 });
 </script>
