@@ -77,6 +77,7 @@
                 color="primary"
                 class="text-primary q-ma-md"
                 label="Potvrdiť"
+                @click="submitTask(task)"
               />
             </div>
           </div>
@@ -107,6 +108,7 @@
             color="primary"
             class="text-primary"
             icon="refresh"
+            @click="refreshTasks()"
           />
         </div>
       </div>
@@ -117,15 +119,22 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, watch } from 'vue';
 import { useTaskStore } from 'src/stores/taskStore';
+import { useDbStore } from 'src/stores/dbStore';
+import initSqlJs from 'sql.js';
+import wasmBinaryFile from 'src/assets/sql-wasm.wasm';
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
     const taskStore = useTaskStore();
     const tasks = ref(taskStore.tasks);
+    const dbStore = useDbStore();
+    const dbFile = ref(dbStore.dbFile);
+    const db = ref(null);
 
     onMounted(() => {
       taskStore.loadTasks();
+      dbStore.loadDb();
     });
 
     // Watch for changes in taskStore.tasks and update the local tasks reference
@@ -136,7 +145,38 @@ export default defineComponent({
       }
     );
 
-    return { tasks, text: ref('') };
+    // Watch for changes in dbStore.dbFile and update the local dbFile reference
+    watch(
+      () => dbStore.dbFile,
+      (newDbFile) => {
+        dbFile.value = newDbFile;
+        initializeSqlJs();
+      }
+    );
+
+    async function initializeSqlJs() {
+      // Load the .wasm file
+      const wasmBinaryFile =
+        process.env.NODE_ENV === 'production'
+          ? 'sql-wasm.wasm'
+          : 'src/assets/sql-wasm.wasm';
+      const sqlJs = await initSqlJs({ locateFile: () => wasmBinaryFile });
+      // Create a new database instance
+      db.value = new sqlJs.Database(dbStore.dbFile);
+
+      const result = db.value.exec('SELECT * FROM users');
+      console.log(result);
+    }
+
+    function refreshTasks() {
+      console.log('Refreshing tasks');
+    }
+
+    function submitTask(task: Task) {
+      console.log('Submitting task', task);
+    }
+
+    return { tasks, text: ref(''), refreshTasks, submitTask };
   },
 });
 </script>
