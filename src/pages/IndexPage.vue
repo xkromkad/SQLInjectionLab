@@ -46,6 +46,7 @@
             <div v-for="(input, index) in task.inputs" :key="index">
               <template v-if="input.type === 'text'">
                 <q-input
+                  :disable="task.solved"
                   class="q-ma-md"
                   outlined
                   v-model="input.value"
@@ -54,6 +55,7 @@
               </template>
               <template v-else-if="input.type === 'number'">
                 <q-input
+                  :disable="task.solved"
                   class="q-ma-md"
                   outlined
                   v-model.number="input.value"
@@ -63,6 +65,7 @@
               </template>
               <template v-else-if="input.type === 'dropdown'">
                 <q-select
+                  :disable="task.solved"
                   class="q-ma-md"
                   outlined
                   v-model="input.selectedOption"
@@ -80,6 +83,17 @@
                 @click="submitTask(task)"
               />
             </div>
+            <q-card-section v-if="task.results.length > 0">
+              <q-table
+                class="q-mb-md"
+                v-for="(result, index) in task.results"
+                :key="index"
+                title="Výsledok"
+                :rows="result.rows"
+                :columns="result.columns"
+                row-key="name"
+              />
+            </q-card-section>
           </div>
         </q-slide-transition>
       </q-card>
@@ -116,12 +130,14 @@
   </q-page>
 </template>
 
-<script lang="ts">
+<script lang="js">
 import { defineComponent, ref, onMounted, watch } from 'vue';
 import { useTaskStore } from 'src/stores/taskStore';
 import { useDbStore } from 'src/stores/dbStore';
 import initSqlJs from 'sql.js';
 import wasmBinaryFile from 'src/assets/sql-wasm.wasm';
+import { sqlService } from 'src/services';
+
 
 export default defineComponent({
   name: 'IndexPage',
@@ -130,11 +146,11 @@ export default defineComponent({
     const tasks = ref(taskStore.tasks);
     const dbStore = useDbStore();
     const dbFile = ref(dbStore.dbFile);
-    const db = ref(null);
 
-    onMounted(() => {
-      taskStore.loadTasks();
-      dbStore.loadDb();
+
+    onMounted(async () => {
+      await taskStore.loadTasks();
+      await dbStore.loadDb();
     });
 
     // Watch for changes in taskStore.tasks and update the local tasks reference
@@ -142,41 +158,106 @@ export default defineComponent({
       () => taskStore.tasks,
       (newTasks) => {
         tasks.value = newTasks;
+        console.log('something')
       }
     );
 
-    // Watch for changes in dbStore.dbFile and update the local dbFile reference
-    watch(
-      () => dbStore.dbFile,
-      (newDbFile) => {
-        dbFile.value = newDbFile;
-        initializeSqlJs();
+    async function submitTask(task) {
+      console.log(task)
+      const results = await sqlService.executeSql(task);
+      const convertedResults = [];
+      if(results == 'error') {
+        task.rawresults = results;
+        checkResult(task);
+        return;
       }
-    );
+      for (const result of results) {
+        if (result) {
+          const convertedData = convertData(result.columns, result.values);
+          convertedResults.push({
+            columns: convertedData.columns,
+            rows: convertedData.rows
+          });
+        }
+      }
+      task.results = convertedResults;
+      task.rawresults = results;
 
-    async function initializeSqlJs() {
-      // Load the .wasm file
-      const wasmBinaryFile =
-        process.env.NODE_ENV === 'production'
-          ? 'sql-wasm.wasm'
-          : 'src/assets/sql-wasm.wasm';
-      const sqlJs = await initSqlJs({ locateFile: () => wasmBinaryFile });
-      // Create a new database instance
-      db.value = new sqlJs.Database(dbStore.dbFile);
+      // Trigger saveTasks after updating tasks
 
-      const result = db.value.exec('SELECT * FROM users');
-      console.log(result);
+      await checkResult(task)
+      taskStore.saveTasks();
+    };
+
+    async function checkResult(task) {
+      if(task.rawresults == 'error') {
+        if(task.correctAnswer == 'error') {
+          task.solved = true
+          return;
+        }
+      }
+      console.log('checking')
+      var result = task.rawresults;
+      if(task.checkQuery) {
+        result = await sqlService.executeCheckSql(task.checkQuery);
+      }
+      console.log(result)
+      if(!result.length) {
+        return;
+      }
+
+      for (const element of result) {
+        const answersArray = task.correctAnswer.split(';').map(answer => answer.trim());
+        console.log(answersArray)
+        const flattenedArray = element.values.reduce((acc, arr) => {
+            acc.push(...arr.map(el => String(el)));
+            return acc;
+        }, []);
+        console.log(flattenedArray)
+        const allAnswersExist = answersArray.every(answer => flattenedArray.includes(answer));
+        console.log(allAnswersExist)
+        if(allAnswersExist) {
+          task.solved = true;
+        }
+      }
+
     }
+
+    function convertData(columns, values) {
+      // Convert columns
+      const convertedColumns = columns.map(column => {
+        return {
+          name: column,
+          align: 'left',
+          label: column.replace('_', ' ').toUpperCase(),
+          field: row => row[column],
+          format: val => `${val}`,
+          sortable: true
+        };
+      });
+
+
+      // Convert rows
+      const convertedRows = values.map(row => {
+        const convertedRow = {};
+        columns.forEach((column, index) => {
+          convertedRow[column] = row[index];
+        });
+        return convertedRow;
+      });
+
+      return { columns: convertedColumns, rows: convertedRows };
+    };
 
     function refreshTasks() {
-      console.log('Refreshing tasks');
+      console.log('refresh')
     }
 
-    function submitTask(task: Task) {
-      console.log('Submitting task', task);
-    }
+
 
     return { tasks, text: ref(''), refreshTasks, submitTask };
   },
+
+
 });
 </script>

@@ -7,12 +7,21 @@
           <q-img :src="injection" alt="Logo SQL injection lab" width="30px" />
         </q-btn>
         <q-space />
-        <q-tabs no-caps class="text-dark" dense>
-          <q-tab
-            name="Login"
+        <q-tabs inline-label no-caps class="text-dark" dense>
+          <q-btn-dropdown
+            no-caps
+            auto-close
+            stretch
+            flat
+            label="xkromkad"
             icon="person"
-            @click="window.location.href = '/auth/login'"
-          />
+          >
+            <q-list>
+              <q-item clickable>
+                <q-item-section>Odhlásiť</q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
         </q-tabs>
       </q-toolbar>
       <div class="intro row justify-center text-dark items-center">

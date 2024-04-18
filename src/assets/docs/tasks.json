@@ -2,46 +2,60 @@
   {
     "id": 1,
     "caption": "Úloha 1: Úvod do SQL injection",
-    "task": "Máte na starosti bezpečnosť webových stránok. Na jednej zo stránok ste objavili pole na vyhľadávanie, ktoré priamo používa vstup od používateľa vo svojej SQL query na databázu. Skúste injektovať SQL kód, ktorý vymaže všetky záznamy z tabuľky používateľov.",
+    "task": "Máte na starosti testovanie bezpečnosti webových stránok.Prostredníctvom prihlasovacieho formulára overte, či je vstup zabezpečený a či je možné injektovať SQL kód, ktorý vymaže tabuľku používateľov (users).",
+    "query": "select username from users where username = '%{name}%' and password = '%{password}%'",
+    "checkQuery": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='users'",
+    "correctAnswer": "0",
     "inputs": [
       {
+        "name": "name",
         "type": "text",
-        "label": "Heslo používateľa"
-      }
-    ]
-  },
-  {
-    "id": 2,
-    "caption": "Úloha 2: Union-based SQL injection",
-    "task": "Webová aplikácia pri vyhľadávaní produktov používa SQL query, ktorého výsledok je zobrazený na stránke. Využite 'UNION SELECT' na získanie citlivých informácií z iných tabuliek, ako napríklad zoznamu používateľov alebo ich hesiel.",
-    "inputs": [
-      {
-        "type": "text",
-        "label": "Vstup pre vyhľadávanie"
-      }
-    ]
-  },
-  {
-    "id": 3,
-    "caption": "Úloha 3: Blind SQL injection",
-    "task": "Na stránke sa nachádza pole na prihlásenie používateľov. Skúste použiť 'blind SQL injection' na zistenie platného používateľského mena a hesla.",
-    "inputs": [
-      {
-        "type": "text",
-        "label": "Používateľské meno"
+        "label": "Meno"
       },
       {
+        "name": "password",
         "type": "text",
         "label": "Heslo"
       }
     ]
   },
   {
-    "id": 4,
-    "caption": "Úloha 4: Error-based SQL injection",
-    "task": "Webová aplikácia vyhľadáva produkty podľa názvu. Skúste vložiť škodlivý SQL kód, ktorý spôsobí chybu v SQL dotaze a vráti citlivé informácie v chybovej správe.",
+    "id": 2,
+    "caption": "Úloha 2: Piggy-backed dotazy SQL injection",
+    "task": "Vložte do vyhľadávacieho poľa SQL kód, ktorý spustí ďalší SQL dotaz po hlavnom dotaze, aby ste získali zoznam všetkých tabuliek v databáze.",
+    "query": "select product_name from products where product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
+    "correctAnswer": "users;sqlite_sequence;products;orders;order_items;delivery;categories;product_categories;reviews;wishlist;payment_methods;order_payments;coupons;order_coupons",
     "inputs": [
       {
+        "name": "search",
+        "type": "text",
+        "label": "Hľadať"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "caption": "Úloha 3: Union-based SQL injection",
+    "task": "Webová aplikácia pri vyhľadávaní produktov používa SQL query, ktorého výsledok je zobrazený na stránke. Využite 'UNION SELECT' na získanie citlivých informácií z iných tabuliek, pokúste sa získať heslá zo zoznamu používateľov.",
+    "query": "select product_name from products where product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
+    "correctAnswer": "password123;password456;password789;password321",
+    "inputs": [
+      {
+        "name": "search",
+        "type": "text",
+        "label": "Vstup pre vyhľadávanie"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "caption": "Úloha 4: Error-based SQL injection",
+    "task": "Webová aplikácia má pri nákupe produktov možnosť zadať kód kupónu. Skúste do tohto vstupu vložiť SQL požiadavku, ktorá obsahuje chybu v SQL dotaze a vráti informácie v chybovej správe.",
+    "query": "select product_name from products where product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
+    "correctAnswer": "error",
+    "inputs": [
+      {
+        "name": "search",
         "type": "text",
         "label": "Názov produktu"
       }
@@ -49,29 +63,7 @@
   },
   {
     "id": 5,
-    "caption": "Úloha 5: Time-based SQL injection",
-    "task": "Na webovej stránke sa nachádza vyhľadávanie produktov. Skúste vložiť SQL kód, ktorý spôsobí oneskorenie vyhľadávacieho procesu, ak sa podmienka správne vyhodnotí, čo naznačuje úspešné vykonanie SQL dotazu.",
-    "inputs": [
-      {
-        "type": "text",
-        "label": "Názov produktu"
-      }
-    ]
-  },
-  {
-    "id": 6,
-    "caption": "Úloha 6: Out-of-band SQL injection",
-    "task": "Skúste vykonávať SQL dotazy, ktoré používajú mimo-bandové komunikačné kanály, ako napríklad DNS alebo HTTP, na prenos citlivých informácií z webového servera na vzdialený server pod kontrolou útočníka.",
-    "inputs": [
-      {
-        "type": "text",
-        "label": "Dotaz pre vykonanie"
-      }
-    ]
-  },
-  {
-    "id": 7,
-    "caption": "Úloha 7: Tautológie SQL injection",
+    "caption": "Úloha 5: Tautológie SQL injection",
     "task": "Skúste vložiť tautologický výraz do vyhľadávacieho poľa, aby ste obišli overenie údajov a získali prístup k citlivým informáciám.",
     "inputs": [
       {
@@ -81,68 +73,51 @@
     ]
   },
   {
-    "id": 8,
-    "caption": "Úloha 8: Malformované dotazy SQL injection",
-    "task": "Skúste vložiť do vyhľadávacieho poľa malformovaný SQL dotaz, ktorý spôsobí chybu vo vykonávaní SQL dotazu a umožní získanie citlivých informácií.",
+    "id": 6,
+    "caption": "Úloha 6: Views",
+    "task": "Skúste zistiť, či sú v databáze vytvorené views.",
+    "query": "select count(coupon_code) from coupons where coupon_code = '%{coupon}%'",
+    "correctAnswer": "user_orders",
     "inputs": [
       {
+        "name": "coupon",
         "type": "text",
-        "label": "Vstup pre vyhľadávanie"
+        "label": "Zadajte zľavový kupón"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "caption": "Úloha 7: Odstránenie Views",
+    "task": "Ak Views v databáze existujú, pokúste sa ich vymazať. Použite na to vstup na stránkovanie pri prezeraní produktov.",
+    "query": "select product_name from products where product_name = '%{product}%'",
+    "checkQuery": "SELECT EXISTS (SELECT 1 FROM sqlite_master WHERE type = 'view' AND name = 'user_orders') AS view_exists;",
+    "correctAnswer": "0",
+    "inputs": [
+      {
+        "name": "product",
+        "type": "number",
+        "label": "Číslo stránky"
       }
     ]
   },
   {
     "id": 9,
-    "caption": "Úloha 9: Union dotazy SQL injection",
-    "task": "Vložte do vyhľadávacieho poľa SQL kód, ktorý využije UNION operátor na spojenie výsledkov s inou tabuľkou a získanie dodatočných informácií.",
+    "caption": "Úloha 9: Pridanie nového používateľa",
+    "task": "Pomocou vstupov na zadanie používateľského mena a hesla, zadjte SQL príkaz, ktorý vytvorí nového používateľa s menom 'Juraj' a heslom 'silneheslo'.",
+    "query": "select username from users where username = '%{name}%' and password = '%{password}%'",
+    "checkQuery": "select username, password from users where username = 'Juraj' and password = 'silneheslo'",
+    "correctAnswer": "Juraj;silneheslo",
     "inputs": [
       {
+        "name": "name",
         "type": "text",
-        "label": "Vstup pre vyhľadávanie"
-      }
-    ]
-  },
-  {
-    "id": 10,
-    "caption": "Úloha 10: Piggy-backed dotazy SQL injection",
-    "task": "Vložte do vyhľadávacieho poľa SQL kód, ktorý spustí ďalší SQL dotaz po hlavnom dotaze, aby ste získali dodatočné informácie.",
-    "inputs": [
+        "label": "Meno"
+      },
       {
+        "name": "password",
         "type": "text",
-        "label": "Vstup pre vyhľadávanie"
-      }
-    ]
-  },
-  {
-    "id": 11,
-    "caption": "Úloha 11: Odvodzovanie SQL injection",
-    "task": "Vložte do vyhľadávacieho poľa SQL kód, ktorý využije odvodzovanie na získanie citlivých informácií z databázy.",
-    "inputs": [
-      {
-        "type": "text",
-        "label": "Vstup pre vyhľadávanie"
-      }
-    ]
-  },
-  {
-    "id": 12,
-    "caption": "Úloha 12: Uložené procedúry SQL injection",
-    "task": "Skúste vložiť do vyhľadávacieho poľa SQL kód, ktorý zneužije uložené procedúry v databáze na získanie citlivých informácií.",
-    "inputs": [
-      {
-        "type": "text",
-        "label": "Vstup pre vyhľadávanie"
-      }
-    ]
-  },
-  {
-    "id": 13,
-    "caption": "Úloha 13: Kombinácia rôznych typov injekcií",
-    "task": "Vytvorte kombináciu rôznych typov SQL injection, aby ste vytvorili komplexný útok na aplikáciu a získali prístup k citlivým informáciám.",
-    "inputs": [
-      {
-        "type": "text",
-        "label": "Vstup pre vyhľadávanie"
+        "label": "Heslo"
       }
     ]
   }

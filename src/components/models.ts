@@ -8,6 +8,7 @@ export interface Meta {
 }
 
 export interface Input {
+  name: string;
   type: 'number' | 'text' | 'dropdown';
   label: string;
   userAnswer: string;
@@ -20,9 +21,11 @@ export interface Task {
   id: number;
   caption: string;
   task: string;
+  query: string;
   inputs: Input[];
   solved: boolean;
   opened: boolean;
+  checkQuery: string;
   correctAnswer: string;
 }
 
