@@ -8,16 +8,22 @@
         </q-btn>
         <q-space />
         <q-tabs inline-label no-caps class="text-dark" dense>
+          <q-btn
+            v-if="user.user == null"
+            icon="person"
+            to="/Auth/login"
+          ></q-btn>
           <q-btn-dropdown
+            v-if="user.user !== null"
             no-caps
             auto-close
             stretch
             flat
-            label="xkromkad"
+            :label="user.user?.email"
             icon="person"
           >
             <q-list>
-              <q-item clickable>
+              <q-item clickable @click="onLogout">
                 <q-item-section>Odhlásiť</q-item-section>
               </q-item>
             </q-list>
@@ -88,11 +94,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import injection from 'src/assets/icons/injection.svg';
+import { useUserStore } from 'src/stores/userStore';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'MainLayout',
 
   setup() {
+    const user = useUserStore();
+    const router = useRouter();
     const scrollToElement = (tabValue: string) => {
       const target = document.getElementById(tabValue);
       const headerHeight = document.querySelector('header')?.offsetHeight || 0;
@@ -108,7 +118,19 @@ export default defineComponent({
         });
       }
     };
-    return { scrollToElement, injection, window };
+
+    async function onLogout() {
+      await user
+        .logout()
+        .then(() => router.push({ name: 'home' }))
+        .catch((err) => {
+          //for (const error of err.response.data.errors) {
+          //getNegativeNotification(error.message.split(':')[1])
+          //}
+          console.log(err);
+        });
+    }
+    return { scrollToElement, injection, window, onLogout, user };
   },
 });
 </script>

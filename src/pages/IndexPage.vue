@@ -142,6 +142,7 @@ import { sqlService } from 'src/services';
 export default defineComponent({
   name: 'IndexPage',
   setup() {
+
     const taskStore = useTaskStore();
     const tasks = ref(taskStore.tasks);
     const dbStore = useDbStore();
@@ -188,6 +189,8 @@ export default defineComponent({
       await checkResult(task)
       taskStore.saveTasks();
     };
+
+
 
     async function checkResult(task) {
       if(task.rawresults == 'error') {
