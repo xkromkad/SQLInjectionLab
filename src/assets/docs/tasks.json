@@ -2,8 +2,8 @@
   {
     "id": 1,
     "caption": "Úloha 1: Úvod do SQL injection",
-    "task": "Máte na starosti testovanie bezpečnosti webových stránok.Prostredníctvom prihlasovacieho formulára overte, či je vstup zabezpečený a či je možné injektovať SQL kód, ktorý vymaže tabuľku používateľov (users).",
-    "query": "select username from users where username = '%{name}%' and password = '%{password}%'",
+    "task": "Máte na starosti testovanie bezpečnosti webových stránok. Prostredníctvom prihlasovacieho formulára overte, či je vstup zabezpečený a či je možné injektovať SQL kód, ktorý vymaže tabuľku používateľov (users). \n \n Predstavte si, že po odoslaní prihlasovacích údajov sa vykoná tento dotaz: select username from users where username = '{name}' and password = '{password}'. Pokúste sa meno alebo heslo nahradiť príkazom, ktorý vymaže tabuľku používateľov.",
+    "query": "select username from users where username = '{name}' and password = '{password}'",
     "checkQuery": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='users'",
     "correctAnswer": "0",
     "inputs": [
@@ -22,7 +22,7 @@
   {
     "id": 2,
     "caption": "Úloha 2: Piggy-backed dotazy SQL injection",
-    "task": "Vložte do vyhľadávacieho poľa SQL kód, ktorý spustí ďalší SQL dotaz po hlavnom dotaze, aby ste získali zoznam všetkých tabuliek v databáze.",
+    "task": "Vložte do vyhľadávacieho poľa SQL kód, ktorý spustí ďalší SQL dotaz po hlavnom dotaze, aby ste získali zoznam všetkých tabuliek v databáze. Typ SQL injection, kedy sa po pôvodnom SQL dotaze vykoná injekovaný SQL dotaz sa nazýva Piggy-backed a patrí medzi najznámejšie. Aby sme úlohu mohli vykonať, mali by sme poznať typ databázového systému. Pre uľahčenie úlohy, v tomto laboratŕiu je pužitý SQLite.",
     "query": "select product_name from products where product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
     "correctAnswer": "users;sqlite_sequence;products;orders;order_items;delivery;categories;product_categories;reviews;wishlist;payment_methods;order_payments;coupons;order_coupons",
     "inputs": [
@@ -36,7 +36,7 @@
   {
     "id": 3,
     "caption": "Úloha 3: Union-based SQL injection",
-    "task": "Webová aplikácia pri vyhľadávaní produktov používa SQL query, ktorého výsledok je zobrazený na stránke. Využite 'UNION SELECT' na získanie citlivých informácií z iných tabuliek, pokúste sa získať heslá zo zoznamu používateľov.",
+    "task": "Webová aplikácia pri vyhľadávaní produktov používa SQL query, ktorého výsledok je zobrazený na stránke. Využite 'UNION SELECT' na získanie citlivých informácií z iných tabuliek, pokúste sa získať heslá zo zoznamu používateľov. Union-Based SQL Injection je technika útoku, ktorá využívá klauzulu SQL 'UNION' na manipuláciu  výstupov SQL dotazov.",
     "query": "select product_name from products where product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
     "correctAnswer": "password123;password456;password789;password321",
     "inputs": [
@@ -49,8 +49,22 @@
   },
   {
     "id": 4,
-    "caption": "Úloha 4: Error-based SQL injection",
-    "task": "Webová aplikácia má pri nákupe produktov možnosť zadať kód kupónu. Skúste do tohto vstupu vložiť SQL požiadavku, ktorá obsahuje chybu v SQL dotaze a vráti informácie v chybovej správe.",
+    "caption": "Úloha 4: Union-based SQL injection 2",
+    "task": "V eshope má používateľ možnosť vyhľadávania vo wishliste. Podobne ako v prechádzajúcej úlohu, pokúste sa pomocou UNION based SQL injection pridať do výstupu vyhľadávania všetky zľavové kupóny.",
+    "query": "select product_name, added_date from wishlist left join products on products.product_id = wishlist.product_id where user_id = 1 and product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
+    "correctAnswer": "LETO2024;ZIMNAVYBAVKA",
+    "inputs": [
+      {
+        "name": "search",
+        "type": "text",
+        "label": "Vyhľadávanie vo wishliste"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "caption": "Úloha 5: Error-based SQL injection",
+    "task": "Webová aplikácia má pri nákupe produktov možnosť zadať kód kupónu. Skúste do tohto vstupu vložiť SQL požiadavku, ktorá obsahuje chybu v SQL dotaze a vráti informácie v chybovej správe. V chybových hláškach sa môžu často nachádzať citlivé inofrmácie ako názvy tabuliek, ktoré môžu zneužiť utočníci.",
     "query": "select product_name from products where product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
     "correctAnswer": "error",
     "inputs": [
@@ -62,21 +76,79 @@
     ]
   },
   {
-    "id": 5,
-    "caption": "Úloha 5: Tautológie SQL injection",
-    "task": "Skúste vložiť tautologický výraz do vyhľadávacieho poľa, aby ste obišli overenie údajov a získali prístup k citlivým informáciám.",
+    "id": 6,
+    "caption": "Úloha 6: Tautológie SQL injection",
+    "task": "Skúste vložiť tautologický výraz do vyhľadávacieho poľa, aby ste obišli overenie údajov pri prihlásení a získali prístup k aplikácii. Tautologická SQL Injection je typ útoku, ktorý využívá logické operátory v SQL dotaze na vytvorenie výrazu, ktorý je vždy pravdivý (tautológia). To umožňuje útočníkovi obísť overovanie hesla alebo iného bezpečnostného mechanizmu a získať nepovolený prístup k aplikácii nebo databázi.",
+    "query": "select username from users where username = '{name}' and password = '{password}'",
+    "checkQuery": "SELECT CASE WHEN count(*) > 0 THEN 1 ELSE 0 END AS result FROM users WHERE username = '{name}' AND password = '{password}';",
+    "correctAnswer": "1",
     "inputs": [
       {
+        "name": "name",
         "type": "text",
-        "label": "Vstup pre vyhľadávanie"
+        "label": "Meno"
+      },
+      {
+        "name": "password",
+        "type": "text",
+        "label": "Heslo"
       }
     ]
   },
   {
-    "id": 6,
-    "caption": "Úloha 6: Views",
-    "task": "Skúste zistiť, či sú v databáze vytvorené views.",
-    "query": "select count(coupon_code) from coupons where coupon_code = '%{coupon}%'",
+    "id": 7,
+    "caption": "Úloha 7: Tautológie SQL injection 2",
+    "task": "Skúste vložiť tautologický výraz do poľa pre sledovacie číslo zásielky tak, aby sme získali dátum doručenia, status a sledovacie číslo všetkých zásielok.",
+    "query": "select delivery_date, status, tracking_number from delivery where tracking_number = '{tracking_number}'",
+    "correctAnswer": "2024-03-25;Pripravené na odoslanie;TRK123456;2024-03-28;Odoslané;TRK987654",
+    "inputs": [
+      {
+        "name": "tracking_number",
+        "type": "text",
+        "label": "Sledovacie číslo zásielky"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "caption": "Úloha 8: Zmena hesla používateľa",
+    "task": "Pomocou vstupov na zadanie používateľského mena a hesla, zadjte SQL príkaz, ktorý používateľovi s používateľským menom jan123 zmení heslo na 'sihacknuty'.",
+    "query": "select username from users where username = '{name}' and password = '{password}'",
+    "checkQuery": "select count(*) from users where username = 'jan123' and password = 'sihacknuty'",
+    "correctAnswer": "1",
+    "inputs": [
+      {
+        "name": "name",
+        "type": "text",
+        "label": "Meno"
+      },
+      {
+        "name": "password",
+        "type": "text",
+        "label": "Heslo"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "caption": "Úloha 9: Zmena ceny produktu",
+    "task": "Pomocou vstupu pre vyhľadávanie zmeňte cenu produktu s názvom 'Smartfón Samsung Galaxy S20' na 0 eur.",
+    "query": "select product_name from products where product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
+    "checkQuery": "select count(*) from products where product_name = 'Smartfón Samsung Galaxy S20' and price = 0",
+    "correctAnswer": "1",
+    "inputs": [
+      {
+        "name": "search",
+        "type": "text",
+        "label": "Názov produktu"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "caption": "Úloha 10: Views",
+    "task": "Pomocou vstupu pre zadávanie zľavového kupónu Skúste zistiť, či sú v databáze vytvorené views.",
+    "query": "select count(coupon_code) from coupons where coupon_code = '{coupon}'",
     "correctAnswer": "user_orders",
     "inputs": [
       {
@@ -87,9 +159,9 @@
     ]
   },
   {
-    "id": 7,
-    "caption": "Úloha 7: Odstránenie Views",
-    "task": "Ak Views v databáze existujú, pokúste sa ich vymazať. Použite na to vstup na stránkovanie pri prezeraní produktov.",
+    "id": 11,
+    "caption": "Úloha 11: Odstránenie Views",
+    "task": "Ak Views v databáze existujú, pokúste sa ich vymazať. Použite na to vstup na stránkovanie pri prezeraní produktov. Pozor, vstup očakáva číslo a je nutné použiť dev tools na zmenu typu vstupu.",
     "query": "select product_name from products where product_name = '%{product}%'",
     "checkQuery": "SELECT EXISTS (SELECT 1 FROM sqlite_master WHERE type = 'view' AND name = 'user_orders') AS view_exists;",
     "correctAnswer": "0",
@@ -102,10 +174,25 @@
     ]
   },
   {
-    "id": 9,
-    "caption": "Úloha 9: Pridanie nového používateľa",
-    "task": "Pomocou vstupov na zadanie používateľského mena a hesla, zadjte SQL príkaz, ktorý vytvorí nového používateľa s menom 'Juraj' a heslom 'silneheslo'.",
-    "query": "select username from users where username = '%{name}%' and password = '%{password}%'",
+    "id": 12,
+    "caption": "Úloha 12: Pridanie zľavového kódu na 100% zľavu",
+    "task": "Pomocou vstupu na zadanie zľavového kódu skúste vytvoriť nový zľavový kód 'UPLNAZLAVA' s hodnotou 100%.",
+    "query": "select count(coupon_code) from coupons where coupon_code = '{coupon}'",
+    "checkQuery": "select coupon_code from coupons where coupon_code = 'UPLNAZLAVA' and discount_amount = '100'",
+    "correctAnswer": "UPLNAZLAVA",
+    "inputs": [
+      {
+        "name": "coupon",
+        "type": "text",
+        "label": "Zadajte zľavový kupón"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "caption": "Úloha 13: Pridanie nového používateľa",
+    "task": "Pomocou vstupov na zadanie používateľského mena a hesla, zadjte SQL príkaz, ktorý vytvorí nového používateľa s menom 'Juraj' a heslom 'silneheslo'. Pomôcka: V dev tools konzole skúste sledovať chybové hlášky, aby ste vedeli aké všetky polia sú povinné v tabuľke users.",
+    "query": "select username from users where username = '{name}' and password = '{password}'",
     "checkQuery": "select username, password from users where username = 'Juraj' and password = 'silneheslo'",
     "correctAnswer": "Juraj;silneheslo",
     "inputs": [

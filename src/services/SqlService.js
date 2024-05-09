@@ -17,7 +17,6 @@ class SqlService {
   }
 
   async initializeSqlJs() {
-    console.log('init db');
     // Load the .wasm file
     const wasmBinaryFile =
       process.env.NODE_ENV === 'production'
@@ -39,7 +38,6 @@ class SqlService {
       sql = sql.replace(new RegExp(`{${param.name}}`, 'g'), paramValue);
     }
     if (this.db.value) {
-      console.log(sql);
       try {
         const result = this.db.value.exec(sql);
         return result;
@@ -52,9 +50,13 @@ class SqlService {
     }
   }
 
-  async executeCheckSql(sql) {
+  async executeCheckSql(sql, params) {
+    for (const param of params) {
+      const paramValue = param.value;
+      // Replace placeholders in the select string with paramValue
+      sql = sql.replace(new RegExp(`{${param.name}}`, 'g'), paramValue);
+    }
     if (this.db.value) {
-      console.log(sql);
       const result = this.db.value.exec(sql);
       return result;
     } else {

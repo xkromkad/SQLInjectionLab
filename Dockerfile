@@ -1,14 +1,14 @@
 #docker build -t rehapp-frontend1 .
 
 # ----- BUILD STAGE -----
-FROM node:14-alpine AS build-stage
+FROM node:20-alpine AS build-stage
 
 # Aliases setup for container folders
 ARG PWA_src="."
 ARG DIST="/pwa"
 
 # Define arguments which can be overridden at build time
-ARG API_URL="https://rehappbackend.herokuapp.com"
+ARG API_URL="http://localhost:3000"
 
 # Set the working directory inside the container to server module
 WORKDIR ${DIST}
@@ -26,7 +26,7 @@ COPY ${PWA_src} .
 RUN npx @quasar/cli build -m pwa
 
 # ----- PRODUCTION STAGE -----
-FROM node:14-alpine AS production-stage
+FROM node:20-alpine AS production-stage
 
 # Aliases setup for container folders
 ARG DIST="/pwa"

@@ -58,8 +58,8 @@ module.exports = configure(function (ctx) {
         API_URL:
           process.env.API_URL ||
           (ctx.dev
-            ? 'http://localhost:3333'
-            : 'https://rehappbackend.herokuapp.com'),
+            ? 'http://localhost:3000'
+            : 'http://localhost:3000'),
       },
       // vueRouterBase,
       // vueDevtools,
@@ -132,7 +132,7 @@ module.exports = configure(function (ctx) {
       // extendSSRWebserverConf (esbuildConf) {},
       // extendPackageJson (json) {},
 
-      pwa: false,
+      pwa: true,
 
       // manualStoreHydration: true,
       // manualPostHydrationTrigger: true,

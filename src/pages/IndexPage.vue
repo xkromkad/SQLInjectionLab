@@ -159,12 +159,10 @@ export default defineComponent({
       () => taskStore.tasks,
       (newTasks) => {
         tasks.value = newTasks;
-        console.log('something')
       }
     );
 
     async function submitTask(task) {
-      console.log(task)
       const results = await sqlService.executeSql(task);
       const convertedResults = [];
       if(results == 'error') {
@@ -199,26 +197,21 @@ export default defineComponent({
           return;
         }
       }
-      console.log('checking')
       var result = task.rawresults;
       if(task.checkQuery) {
-        result = await sqlService.executeCheckSql(task.checkQuery);
+        result = await sqlService.executeCheckSql(task.checkQuery, task.inputs);
       }
-      console.log(result)
       if(!result.length) {
         return;
       }
 
       for (const element of result) {
         const answersArray = task.correctAnswer.split(';').map(answer => answer.trim());
-        console.log(answersArray)
         const flattenedArray = element.values.reduce((acc, arr) => {
             acc.push(...arr.map(el => String(el)));
             return acc;
         }, []);
-        console.log(flattenedArray)
         const allAnswersExist = answersArray.every(answer => flattenedArray.includes(answer));
-        console.log(allAnswersExist)
         if(allAnswersExist) {
           task.solved = true;
         }
@@ -253,7 +246,7 @@ export default defineComponent({
     };
 
     function refreshTasks() {
-      console.log('refresh')
+      taskStore.resetTasks();
     }
 
 

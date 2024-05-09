@@ -96,11 +96,13 @@ import { defineComponent } from 'vue';
 import injection from 'src/assets/icons/injection.svg';
 import { useUserStore } from 'src/stores/userStore';
 import { useRouter } from 'vue-router';
+import { useTaskStore } from 'src/stores/taskStore';
 
 export default defineComponent({
   name: 'MainLayout',
 
   setup() {
+    const taskStore = useTaskStore();
     const user = useUserStore();
     const router = useRouter();
     const scrollToElement = (tabValue: string) => {
@@ -129,6 +131,7 @@ export default defineComponent({
           //}
           console.log(err);
         });
+      taskStore.resetTasks();
     }
     return { scrollToElement, injection, window, onLogout, user };
   },
