@@ -4,8 +4,8 @@
 FROM node:20-alpine AS build-stage
 
 # Aliases setup for container folders
-ARG PWA_src="."
-ARG DIST="/pwa"
+ARG SPA_src="."
+ARG DIST="/spa"
 
 # Define arguments which can be overridden at build time
 ARG API_URL="http://localhost:3000"
@@ -14,36 +14,36 @@ ARG API_URL="http://localhost:3000"
 WORKDIR ${DIST}
 
 # Copying in two separate steps allows us to take advantage of cached Docker layers.
-COPY ${PWA_src}/package*.json ./
+COPY ${SPA_src}/package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy source files inside container
-COPY ${PWA_src} .
+COPY ${SPA_src} .
 
 # Build the SPA
-RUN npx @quasar/cli build -m pwa
+RUN npx @quasar/cli build -m spa
 
 # ----- PRODUCTION STAGE -----
 FROM node:20-alpine AS production-stage
 
 # Aliases setup for container folders
-ARG DIST="/pwa"
-ARG PWA="/myapp"
+ARG DIST="/spa"
+ARG SPA="/myapp"
 
 # Define environment variables for HTTP server
 ENV HOST="0.0.0.0"
 ENV PORT="9007"
 
 # Set working directory
-WORKDIR ${PWA}
+WORKDIR ${SPA}
 
 # Copy build artifacts from previous stage
-COPY --from=build-stage ${DIST}/dist/pwa ./
+COPY --from=build-stage ${DIST}/dist/spa ./
 
 # Copy assets folder from build stage to production stage
-COPY --from=build-stage ${DIST}/src/assets ${PWA}/src/assets
+COPY --from=build-stage ${DIST}/src/assets ${SPA}/src/assets
 
 # Expose port outside container
 EXPOSE ${PORT}
