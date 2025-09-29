@@ -27,10 +27,10 @@ export default boot(({ router }) => {
   // add route guard to check auth user
   router.beforeEach(async (to) => {
     const user = useUserStore();
-   /* const isAuthenticated = navigator.onLine
+    /* const isAuthenticated = navigator.onLine
       ? await user.check()
       : (false as boolean);*/
-    const isAuthenticated = await user.check();
+    const isAuthenticated = false; //await user.check();
 
     // route requires authentication
     if (to.meta.requiresAuth && !isAuthenticated) {

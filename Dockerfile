@@ -1,5 +1,5 @@
-#docker build -t rehapp-frontend1 .
-
+#docker build -t predskolacik-image .
+#docker run -d --name predskolacik-container -p 9007:9007 predskolacik-image
 # ----- BUILD STAGE -----
 FROM node:20-alpine AS build-stage
 
@@ -34,7 +34,7 @@ ARG PWA="/myapp"
 
 # Define environment variables for HTTP server
 ENV HOST="0.0.0.0"
-ENV PORT="9000"
+ENV PORT="9007"
 
 # Set working directory
 WORKDIR ${PWA}

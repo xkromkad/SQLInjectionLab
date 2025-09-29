@@ -7,28 +7,6 @@
           <q-img :src="injection" alt="Logo SQL injection lab" width="30px" />
         </q-btn>
         <q-space />
-        <q-tabs inline-label no-caps class="text-dark" dense>
-          <q-btn
-            v-if="user.user == null"
-            icon="person"
-            to="/Auth/login"
-          ></q-btn>
-          <q-btn-dropdown
-            v-if="user.user !== null"
-            no-caps
-            auto-close
-            stretch
-            flat
-            :label="user.user?.email"
-            icon="person"
-          >
-            <q-list>
-              <q-item clickable @click="onLogout">
-                <q-item-section>Odhlásiť</q-item-section>
-              </q-item>
-            </q-list>
-          </q-btn-dropdown>
-        </q-tabs>
       </q-toolbar>
       <div class="intro row justify-center text-dark items-center">
         <div
