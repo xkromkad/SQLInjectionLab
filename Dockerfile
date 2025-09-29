@@ -1,5 +1,5 @@
-#docker build -t predskolacik-image .
-#docker run -d --name predskolacik-container -p 9007:9007 predskolacik-image
+#docker build -t sqlinjectionlab-image .
+#docker run -d --name sqlinjectionlab-container -p 9007:9007 sqlinjectionlab-image
 # ----- BUILD STAGE -----
 FROM node:20-alpine AS build-stage
 
