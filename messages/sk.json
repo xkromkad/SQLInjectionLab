@@ -1,0 +1,233 @@
+{
+  "Metadata": {
+    "title": "SQL Injection Lab — Interaktívne laboratórium na učenie SQL injection",
+    "description": "Bezpečné, interaktívne laboratórium na učenie a precvičovanie SQL injection útokov na reálnej databáze priamo v prehliadači. Iba na vzdelávacie účely."
+  },
+  "Nav": {
+    "home": "Domov",
+    "about": "O projekte",
+    "lab": "Laboratórium",
+    "dashboard": "Prehľad",
+    "taskSets": "Sady úloh",
+    "signIn": "Prihlásiť sa",
+    "signOut": "Odhlásiť sa",
+    "openMenu": "Otvoriť menu"
+  },
+  "Footer": {
+    "tagline": "Vzdelávacie laboratórium na bezpečné experimentovanie s útokmi SQL Injection.",
+    "madeBy": "Vytvoril",
+    "rights": "Všetky práva vyhradené.",
+    "sections": {
+      "product": "Produkt",
+      "legal": "Právne informácie",
+      "resources": "Zdroje"
+    },
+    "links": {
+      "home": "Domov",
+      "about": "O projekte",
+      "lab": "Laboratórium",
+      "terms": "Podmienky používania",
+      "privacy": "Ochrana súkromia",
+      "cookies": "Zásady cookies",
+      "disclaimer": "Vyhlásenie"
+    },
+    "educationalNotice": "Tento nástroj slúži výhradne na vzdelávacie účely v kontrolovanom prostredí."
+  },
+  "Common": {
+    "loading": "Načítava sa…",
+    "error": "Vyskytla sa chyba",
+    "retry": "Skúsiť znova",
+    "save": "Uložiť",
+    "cancel": "Zrušiť",
+    "close": "Zavrieť",
+    "submit": "Odoslať",
+    "back": "Späť",
+    "languageSwitcher": "Jazyk"
+  },
+  "Home": {
+    "hero": {
+      "badge": "Iba na vzdelávacie účely",
+      "title": "Nauč sa SQL injection v praxi",
+      "subtitle": "Interaktívne laboratórium, kde útočíš na reálnu SQLite databázu bežiacu priamo v tvojom prehliadači. Žiadny server, žiadne riziko — len ty a databáza.",
+      "ctaPrimary": "Začať trénovať",
+      "ctaSecondary": "Zistiť viac"
+    },
+    "features": {
+      "title": "Ako to funguje",
+      "subtitle": "Bezpečné, praktické a vždy po ruke",
+      "items": {
+        "realDb": {
+          "title": "Reálna databáza v prehliadači",
+          "description": "Každá úloha beží proti skutočnej SQLite databáze cez WebAssembly. Tvoje injekcie sa naozaj vykonajú — bezpečne, izolovane v prehliadači."
+        },
+        "tasks": {
+          "title": "Postupné úlohy",
+          "description": "Od základov po pokročilé techniky: union-based, error-based, tautológie, piggy-backed dotazy a ďalšie."
+        },
+        "progress": {
+          "title": "Sledovanie pokroku",
+          "description": "Každý pokus a výsledok sa ukladá k tvojmu účtu. Spúšťaj viac relácií a sleduj svoj postup."
+        },
+        "custom": {
+          "title": "Vlastné sady úloh",
+          "description": "Importuj vlastné úlohy v JSON formáte a nahraj vlastnú SQLite databázu. Vytvor si vlastné cvičenia."
+        }
+      }
+    },
+    "examples": {
+      "title": "Príklady techník",
+      "subtitle": "Pozri si, čo sa naučíš",
+      "items": {
+        "union": {
+          "title": "Union-based injection",
+          "description": "Spoj výsledky z iných tabuliek do výstupu a získaj citlivé dáta ako heslá používateľov."
+        },
+        "tautology": {
+          "title": "Tautológie",
+          "description": "Obíď prihlasovanie pomocou výrazu, ktorý je vždy pravdivý, napríklad ' OR '1'='1."
+        },
+        "error": {
+          "title": "Error-based injection",
+          "description": "Vyvolaj chybové hlášky, ktoré prezradia štruktúru databázy."
+        }
+      }
+    },
+    "cta": {
+      "title": "Pripravený začať?",
+      "subtitle": "Prihlás sa cez Google alebo GitHub a začni trénovať za pár sekúnd.",
+      "button": "Prihlásiť sa a trénovať"
+    }
+  },
+  "Auth": {
+    "title": "Prihlásenie",
+    "subtitle": "Pokračuj pomocou svojho účtu. Tréning SQL injection je dostupný iba pre prihlásených používateľov.",
+    "google": "Pokračovať cez Google",
+    "github": "Pokračovať cez GitHub",
+    "termsNotice": "Prihlásením súhlasíš s našimi {terms} a potvrdzuješ, že nástroj použiješ výhradne na vzdelávacie účely.",
+    "termsLink": "Podmienkami používania",
+    "error": "Prihlásenie zlyhalo. Skús to znova.",
+    "backHome": "Späť na domov"
+  },
+  "Welcome": {
+    "title": "Vitaj v SQL Injection Lab",
+    "subtitle": "Pred prvým spustením tréningu musíš potvrdiť pravidlá používania.",
+    "rulesTitle": "Pravidlá používania",
+    "rules": {
+      "educational": "Tento nástroj používam výhradne na vzdelávacie účely.",
+      "noRealSystems": "Techniky nepoužijem proti reálnym systémom bez výslovného povolenia.",
+      "responsibility": "Beriem na seba plnú zodpovednosť za svoje konanie."
+    },
+    "acceptPrefix": "Prečítal/a som a súhlasím s",
+    "termsLink": "Podmienkami používania",
+    "accept": "Súhlasím a pokračovať",
+    "submitting": "Ukladá sa…"
+  },
+  "Dashboard": {
+    "title": "Prehľad",
+    "subtitle": "Tvoje relácie a pokrok.",
+    "newSession": "Nová relácia",
+    "browseSets": "Prehľadať sady úloh",
+    "empty": "Zatiaľ nemáš žiadne relácie. Vyber si sadu úloh a začni trénovať.",
+    "continue": "Pokračovať",
+    "viewAttempts": "Pokusy",
+    "progress": "Pokrok",
+    "status": {
+      "in_progress": "Prebieha",
+      "completed": "Dokončené"
+    }
+  },
+  "Consent": {
+    "title": "Rešpektujeme tvoje súkromie",
+    "description": "Používame cookies na analýzu návštevnosti a zobrazovanie reklám. Súbory cookies nastavíme až po tvojom súhlase.",
+    "accept": "Prijať všetko",
+    "reject": "Odmietnuť",
+    "learnMore": "Viac informácií"
+  },
+  "About": {
+    "title": "O projekte",
+    "subtitle": "SQL Injection Lab je vzdelávací nástroj na praktické pochopenie SQL injection útokov v bezpečnom prostredí.",
+    "sections": {
+      "mission": {
+        "title": "Naše poslanie",
+        "body": "Cieľom projektu je naučiť vývojárov a študentov, ako SQL injection útoky fungujú — aby vedeli písať bezpečnejší kód. Najlepší spôsob, ako sa brániť útokom, je rozumieť im."
+      },
+      "how": {
+        "title": "Ako to funguje",
+        "body": "Každá úloha beží proti skutočnej SQLite databáze, ktorá je spustená priamo v tvojom prehliadači pomocou WebAssembly. Tvoje injekcie sa naozaj vykonajú, no všetko prebieha lokálne a izolovane — nič neohrozuje reálne systémy."
+      },
+      "safety": {
+        "title": "Bezpečnosť a etika",
+        "body": "Tento nástroj je určený výhradne na vzdelávacie účely. Techniky, ktoré sa tu naučíš, nikdy nepoužívaj proti systémom bez výslovného povolenia. Neoprávnený prístup k počítačovým systémom je trestný čin."
+      },
+      "credits": {
+        "title": "O autorovi",
+        "body": "Projekt vznikol pôvodne ako školský projekt na FIIT STU (BVI) a ďalej ho rozvíja kromka.it."
+      }
+    }
+  },
+  "Legal": {
+    "lastUpdated": "Posledná aktualizácia",
+    "backHome": "Späť na domov"
+  },
+  "Lab": {
+    "submit": "Spustiť dotaz",
+    "running": "Spúšťa sa…",
+    "solved": "Vyriešené",
+    "result": "Výsledok",
+    "noResults": "Dotaz nevrátil žiadne riadky.",
+    "errorTitle": "Chyba SQL dotazu",
+    "executedQuery": "Vykonaný dotaz",
+    "progress": "Pokrok",
+    "tasksSolved": "{solved} z {total} vyriešených",
+    "allSolved": "Gratulujeme! Vyriešil/a si všetky úlohy.",
+    "viewAttempts": "Zobraziť pokusy",
+    "hintInputs": "Vstupy"
+  },
+  "TaskSets": {
+    "title": "Sady úloh",
+    "subtitle": "Vyber si sadu a spusti novú reláciu, alebo importuj vlastnú.",
+    "builtin": "Vstavaná",
+    "custom": "Vlastná",
+    "tasksCount": "{count, plural, one {# úloha} few {# úlohy} other {# úloh}}",
+    "start": "Spustiť reláciu",
+    "starting": "Vytvára sa…",
+    "import": "Importovať sadu",
+    "empty": "Žiadne sady úloh."
+  },
+  "Attempts": {
+    "title": "Pokusy a výsledky",
+    "subtitle": "História všetkých tvojich odoslaných dotazov v tejto relácii.",
+    "empty": "Zatiaľ žiadne pokusy.",
+    "task": "Úloha",
+    "query": "Dotaz",
+    "outcome": "Výsledok",
+    "time": "Čas",
+    "correct": "Správne",
+    "incorrect": "Nesprávne",
+    "backToLab": "Späť do laboratória"
+  },
+  "Import": {
+    "title": "Import vlastnej sady úloh",
+    "subtitle": "Vlož úlohy vo formáte JSON a voliteľne nahraj vlastnú SQLite databázu.",
+    "titleField": "Názov sady",
+    "titlePlaceholder": "Moja sada úloh",
+    "description": "Popis (voliteľné)",
+    "language": "Jazyk",
+    "visibility": "Viditeľnosť",
+    "private": "Súkromná",
+    "public": "Verejná",
+    "tasksJson": "Úlohy (JSON)",
+    "tasksJsonHint": "Pole úloh v rovnakom formáte ako vstavané úlohy.",
+    "loadFile": "Načítať zo súboru",
+    "downloadExample": "Stiahnuť vzorový JSON",
+    "dbFile": "Vlastná SQLite databáza (voliteľné)",
+    "dbFileHint": "Súbor .db do 5 MB. Ak ho nenahráš, použije sa vstavaná databáza.",
+    "submit": "Vytvoriť sadu",
+    "submitting": "Vytvára sa…",
+    "success": "Sada úloh bola vytvorená.",
+    "invalidJson": "Neplatný JSON.",
+    "validationError": "JSON nezodpovedá očakávanému formátu úloh.",
+    "uploadError": "Nahranie databázy zlyhalo.",
+    "tasksCount": "{count} úloh rozpoznaných"
+  }
+}

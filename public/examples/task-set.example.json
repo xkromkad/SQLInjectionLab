@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "caption": "Example 1: Union-based injection",
+    "task": "The product search uses: select product_name from products where product_name LIKE '%{search}%'. Use UNION SELECT to read user passwords.",
+    "query": "select product_name from products where product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
+    "correctAnswer": "password123;password456;password789;password321",
+    "inputs": [
+      {
+        "name": "search",
+        "type": "text",
+        "label": "Search input"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "caption": "Example 2: Tautology login bypass",
+    "task": "The login runs: select username from users where username = '{name}' and password = '{password}'. Bypass it with an always-true expression.",
+    "query": "select username from users where username = '{name}' and password = '{password}'",
+    "checkQuery": "SELECT CASE WHEN count(*) > 0 THEN 1 ELSE 0 END AS result FROM users WHERE username = '{name}' AND password = '{password}';",
+    "correctAnswer": "1",
+    "inputs": [
+      {
+        "name": "name",
+        "type": "text",
+        "label": "Username"
+      },
+      {
+        "name": "password",
+        "type": "text",
+        "label": "Password"
+      }
+    ]
+  }
+]
