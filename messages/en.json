@@ -1,0 +1,233 @@
+{
+  "Metadata": {
+    "title": "SQL Injection Lab — Interactive hands-on SQL injection training",
+    "description": "A safe, interactive lab to learn and practice SQL injection attacks against a real database, right in your browser. For educational purposes only."
+  },
+  "Nav": {
+    "home": "Home",
+    "about": "About",
+    "lab": "Lab",
+    "dashboard": "Dashboard",
+    "taskSets": "Task sets",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "openMenu": "Open menu"
+  },
+  "Footer": {
+    "tagline": "An educational lab for safely experimenting with SQL Injection attacks.",
+    "madeBy": "Made by",
+    "rights": "All rights reserved.",
+    "sections": {
+      "product": "Product",
+      "legal": "Legal",
+      "resources": "Resources"
+    },
+    "links": {
+      "home": "Home",
+      "about": "About",
+      "lab": "Lab",
+      "terms": "Terms of Use",
+      "privacy": "Privacy Policy",
+      "cookies": "Cookie Policy",
+      "disclaimer": "Disclaimer"
+    },
+    "educationalNotice": "This tool is intended solely for educational purposes in a controlled environment."
+  },
+  "Common": {
+    "loading": "Loading…",
+    "error": "An error occurred",
+    "retry": "Try again",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "submit": "Submit",
+    "back": "Back",
+    "languageSwitcher": "Language"
+  },
+  "Home": {
+    "hero": {
+      "badge": "For educational purposes only",
+      "title": "Learn SQL injection hands-on",
+      "subtitle": "An interactive lab where you attack a real SQLite database running entirely in your browser. No server, no risk — just you and the database.",
+      "ctaPrimary": "Start training",
+      "ctaSecondary": "Learn more"
+    },
+    "features": {
+      "title": "How it works",
+      "subtitle": "Safe, hands-on, and always available",
+      "items": {
+        "realDb": {
+          "title": "Real database in the browser",
+          "description": "Every task runs against an actual SQLite database via WebAssembly. Your injections truly execute — safely sandboxed in your browser."
+        },
+        "tasks": {
+          "title": "Progressive tasks",
+          "description": "From the basics to advanced techniques: union-based, error-based, tautologies, piggy-backed queries and more."
+        },
+        "progress": {
+          "title": "Progress tracking",
+          "description": "Every attempt and result is saved to your account. Run multiple sessions and follow your progress."
+        },
+        "custom": {
+          "title": "Custom task sets",
+          "description": "Import your own tasks as JSON and upload your own SQLite database. Build your own exercises."
+        }
+      }
+    },
+    "examples": {
+      "title": "Techniques you'll learn",
+      "subtitle": "A taste of what's inside",
+      "items": {
+        "union": {
+          "title": "Union-based injection",
+          "description": "Append results from other tables to the output and exfiltrate sensitive data such as user passwords."
+        },
+        "tautology": {
+          "title": "Tautologies",
+          "description": "Bypass authentication with an always-true expression, for example ' OR '1'='1."
+        },
+        "error": {
+          "title": "Error-based injection",
+          "description": "Trigger error messages that leak the structure of the database."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to start?",
+      "subtitle": "Sign in with Google or GitHub and start training in seconds.",
+      "button": "Sign in and train"
+    }
+  },
+  "Auth": {
+    "title": "Sign in",
+    "subtitle": "Continue with your account. SQL injection training is available to signed-in users only.",
+    "google": "Continue with Google",
+    "github": "Continue with GitHub",
+    "termsNotice": "By signing in you agree to our {terms} and confirm you will use this tool for educational purposes only.",
+    "termsLink": "Terms of Use",
+    "error": "Sign-in failed. Please try again.",
+    "backHome": "Back to home"
+  },
+  "Welcome": {
+    "title": "Welcome to SQL Injection Lab",
+    "subtitle": "Before you start training for the first time, please confirm the rules of use.",
+    "rulesTitle": "Rules of use",
+    "rules": {
+      "educational": "I will use this tool for educational purposes only.",
+      "noRealSystems": "I will not use these techniques against real systems without explicit authorization.",
+      "responsibility": "I take full responsibility for my actions."
+    },
+    "acceptPrefix": "I have read and agree to the",
+    "termsLink": "Terms of Use",
+    "accept": "Agree and continue",
+    "submitting": "Saving…"
+  },
+  "Dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Your sessions and progress.",
+    "newSession": "New session",
+    "browseSets": "Browse task sets",
+    "empty": "You don't have any sessions yet. Pick a task set and start training.",
+    "continue": "Continue",
+    "viewAttempts": "Attempts",
+    "progress": "Progress",
+    "status": {
+      "in_progress": "In progress",
+      "completed": "Completed"
+    }
+  },
+  "Consent": {
+    "title": "We respect your privacy",
+    "description": "We use cookies to analyse traffic and serve ads. Cookies are only set after you consent.",
+    "accept": "Accept all",
+    "reject": "Reject",
+    "learnMore": "Learn more"
+  },
+  "About": {
+    "title": "About",
+    "subtitle": "SQL Injection Lab is an educational tool for understanding SQL injection attacks hands-on, in a safe environment.",
+    "sections": {
+      "mission": {
+        "title": "Our mission",
+        "body": "The goal of this project is to teach developers and students how SQL injection attacks work — so they can write safer code. The best way to defend against an attack is to understand it."
+      },
+      "how": {
+        "title": "How it works",
+        "body": "Every task runs against a real SQLite database executed directly in your browser via WebAssembly. Your injections genuinely execute, but everything happens locally and in isolation — no real systems are ever at risk."
+      },
+      "safety": {
+        "title": "Safety and ethics",
+        "body": "This tool is intended solely for educational purposes. Never use the techniques you learn here against systems without explicit authorization. Unauthorized access to computer systems is a crime."
+      },
+      "credits": {
+        "title": "About the author",
+        "body": "The project started as a school project at FIIT STU (BVI) and is further developed by kromka.it."
+      }
+    }
+  },
+  "Legal": {
+    "lastUpdated": "Last updated",
+    "backHome": "Back to home"
+  },
+  "Lab": {
+    "submit": "Run query",
+    "running": "Running…",
+    "solved": "Solved",
+    "result": "Result",
+    "noResults": "The query returned no rows.",
+    "errorTitle": "SQL error",
+    "executedQuery": "Executed query",
+    "progress": "Progress",
+    "tasksSolved": "{solved} of {total} solved",
+    "allSolved": "Congratulations! You solved all tasks.",
+    "viewAttempts": "View attempts",
+    "hintInputs": "Inputs"
+  },
+  "TaskSets": {
+    "title": "Task sets",
+    "subtitle": "Pick a set and start a new session, or import your own.",
+    "builtin": "Built-in",
+    "custom": "Custom",
+    "tasksCount": "{count, plural, one {# task} other {# tasks}}",
+    "start": "Start session",
+    "starting": "Creating…",
+    "import": "Import set",
+    "empty": "No task sets."
+  },
+  "Attempts": {
+    "title": "Attempts & results",
+    "subtitle": "The history of every query you submitted in this session.",
+    "empty": "No attempts yet.",
+    "task": "Task",
+    "query": "Query",
+    "outcome": "Outcome",
+    "time": "Time",
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "backToLab": "Back to lab"
+  },
+  "Import": {
+    "title": "Import a custom task set",
+    "subtitle": "Paste tasks as JSON and optionally upload your own SQLite database.",
+    "titleField": "Set title",
+    "titlePlaceholder": "My task set",
+    "description": "Description (optional)",
+    "language": "Language",
+    "visibility": "Visibility",
+    "private": "Private",
+    "public": "Public",
+    "tasksJson": "Tasks (JSON)",
+    "tasksJsonHint": "An array of tasks in the same format as the built-in tasks.",
+    "loadFile": "Load from file",
+    "downloadExample": "Download example JSON",
+    "dbFile": "Custom SQLite database (optional)",
+    "dbFileHint": "A .db file up to 5 MB. If omitted, the built-in database is used.",
+    "submit": "Create set",
+    "submitting": "Creating…",
+    "success": "Task set created.",
+    "invalidJson": "Invalid JSON.",
+    "validationError": "The JSON does not match the expected task format.",
+    "uploadError": "Database upload failed.",
+    "tasksCount": "{count} tasks detected"
+  }
+}
