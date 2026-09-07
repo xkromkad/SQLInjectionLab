@@ -2,7 +2,12 @@ import { and, desc, eq } from 'drizzle-orm';
 import { db } from '@/lib/db';
 import { labSessions, taskSets, submissions } from '@/lib/db/schema';
 
-const BUILTIN_DB_URL = '/db/SQLInjectionLab.db';
+// One built-in SQLite file per language: same schema, translated row data.
+const BUILTIN_DB_URLS: Record<string, string> = {
+  sk: '/db/SQLInjectionLab.db',
+  en: '/db/SQLInjectionLab.en.db',
+};
+const DEFAULT_BUILTIN_DB_URL = BUILTIN_DB_URLS.sk;
 
 /** A lab session joined with its task set, scoped to the owning user. */
 export async function getSessionForUser(sessionId: string, userId: string) {
@@ -26,14 +31,17 @@ export async function getSolvedTaskIds(sessionId: string): Promise<string[]> {
   return rows.map((r) => r.taskId);
 }
 
-/** Resolves which SQLite file the lab should run against. */
+/**
+ * Resolves which SQLite file the lab should run against: an uploaded blob for
+ * custom sets, otherwise the built-in database matching the set's language.
+ */
 export function resolveDbUrl(taskSet: {
   dbSource: string;
   dbBlobUrl: string | null;
+  language: string;
 }): string {
-  return taskSet.dbSource === 'blob' && taskSet.dbBlobUrl
-    ? taskSet.dbBlobUrl
-    : BUILTIN_DB_URL;
+  if (taskSet.dbSource === 'blob' && taskSet.dbBlobUrl) return taskSet.dbBlobUrl;
+  return BUILTIN_DB_URLS[taskSet.language] ?? DEFAULT_BUILTIN_DB_URL;
 }
 
 export type UserSession = {

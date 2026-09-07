@@ -96,7 +96,7 @@ function safeExec(db: Database, sql: string): QueryExecResult[] | undefined {
  *  - otherwise run checkQuery (or reuse main results) and verify every
  *    semicolon-separated expected value appears in the result set.
  */
-function checkSolved(
+export function checkSolved(
   db: Database,
   task: TaskDef,
   inputs: Record<string, string>,

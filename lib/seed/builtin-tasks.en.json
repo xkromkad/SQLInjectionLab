@@ -1,0 +1,211 @@
+[
+  {
+    "id": 1,
+    "caption": "Task 1: Introduction to SQL injection",
+    "task": "You are in charge of security-testing a website. Using the login form, verify whether the input is safe or whether SQL code can be injected to delete the users table (users). \n \n Imagine that submitting the login credentials runs this query: select username from users where username = '{name}' and password = '{password}'. Try replacing the name or the password with a statement that deletes the users table.",
+    "query": "select username from users where username = '{name}' and password = '{password}'",
+    "checkQuery": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='users'",
+    "correctAnswer": "0",
+    "inputs": [
+      {
+        "name": "name",
+        "type": "text",
+        "label": "Name"
+      },
+      {
+        "name": "password",
+        "type": "text",
+        "label": "Password"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "caption": "Task 2: Piggy-backed SQL injection",
+    "task": "Enter SQL code into the search field that runs another SQL query after the main one, so that you obtain a list of all tables in the database. The type of SQL injection where an injected query runs after the original one is called piggy-backed and is among the best known. To carry it out you need to know which database system is in use; to make the task easier, this lab uses SQLite.",
+    "query": "select product_name from products where product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
+    "correctAnswer": "users;sqlite_sequence;products;orders;order_items;delivery;categories;product_categories;reviews;wishlist;payment_methods;order_payments;coupons;order_coupons",
+    "inputs": [
+      {
+        "name": "search",
+        "type": "text",
+        "label": "Search"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "caption": "Task 3: Union-based SQL injection",
+    "task": "When searching for products, the web application uses a SQL query whose result is shown on the page. Use 'UNION SELECT' to obtain sensitive information from other tables — try to read the passwords from the list of users. Union-based SQL injection is an attack technique that uses the SQL 'UNION' clause to manipulate the output of SQL queries.",
+    "query": "select product_name from products where product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
+    "correctAnswer": "password123;password456;password789;password321",
+    "inputs": [
+      {
+        "name": "search",
+        "type": "text",
+        "label": "Search input"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "caption": "Task 4: Union-based SQL injection 2",
+    "task": "In the e-shop a user can search their wishlist. As in the previous task, use union-based SQL injection to add every discount coupon to the search output.",
+    "query": "select product_name, added_date from wishlist left join products on products.product_id = wishlist.product_id where user_id = 1 and product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
+    "correctAnswer": "SUMMER2024;WINTERGEAR",
+    "inputs": [
+      {
+        "name": "search",
+        "type": "text",
+        "label": "Wishlist search"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "caption": "Task 5: Error-based SQL injection",
+    "task": "The web application lets you search for products by name. Try entering SQL into this input that contains an error in the SQL query, so the application returns information in the error message. Error messages often expose sensitive information such as table or column names, which attackers can abuse.",
+    "query": "select product_name from products where product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
+    "correctAnswer": "error",
+    "inputs": [
+      {
+        "name": "search",
+        "type": "text",
+        "label": "Product name"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "caption": "Task 6: Tautology-based SQL injection",
+    "task": "Try entering a tautological expression into the login fields to bypass credential validation and gain access to the application. Tautology-based SQL injection is a type of attack that uses logical operators in a SQL query to build an expression that is always true (a tautology). That lets an attacker bypass a password check or another security mechanism and gain unauthorized access to the application or the database.",
+    "query": "select username from users where username = '{name}' and password = '{password}'",
+    "checkQuery": "SELECT CASE WHEN count(*) > 0 THEN 1 ELSE 0 END AS result FROM users WHERE username = '{name}' AND password = '{password}';",
+    "correctAnswer": "1",
+    "inputs": [
+      {
+        "name": "name",
+        "type": "text",
+        "label": "Name"
+      },
+      {
+        "name": "password",
+        "type": "text",
+        "label": "Password"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "caption": "Task 7: Tautology-based SQL injection 2",
+    "task": "Try entering a tautological expression into the shipment tracking number field so that you obtain the delivery date, status and tracking number of every shipment.",
+    "query": "select delivery_date, status, tracking_number from delivery where tracking_number = '{tracking_number}'",
+    "correctAnswer": "2024-03-25;Ready for dispatch;TRK123456;2024-03-28;Shipped;TRK987654",
+    "inputs": [
+      {
+        "name": "tracking_number",
+        "type": "text",
+        "label": "Shipment tracking number"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "caption": "Task 8: Changing a user's password",
+    "task": "Using the username and password inputs, enter a SQL statement that changes the password of the user with the username jan123 to 'youarehacked'.",
+    "query": "select username from users where username = '{name}' and password = '{password}'",
+    "checkQuery": "select count(*) from users where username = 'jan123' and password = 'youarehacked'",
+    "correctAnswer": "1",
+    "inputs": [
+      {
+        "name": "name",
+        "type": "text",
+        "label": "Name"
+      },
+      {
+        "name": "password",
+        "type": "text",
+        "label": "Password"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "caption": "Task 9: Changing a product price",
+    "task": "Using the search input, change the price of the product named 'Samsung Galaxy S20 Smartphone' to 0 euros.",
+    "query": "select product_name from products where product_name LIKE '%{search}%' OR description LIKE '%{search}%'",
+    "checkQuery": "select count(*) from products where product_name = 'Samsung Galaxy S20 Smartphone' and price = 0",
+    "correctAnswer": "1",
+    "inputs": [
+      {
+        "name": "search",
+        "type": "text",
+        "label": "Product name"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "caption": "Task 10: Views",
+    "task": "Using the discount coupon input, try to find out whether any views exist in the database.",
+    "query": "select count(coupon_code) from coupons where coupon_code = '{coupon}'",
+    "correctAnswer": "user_orders",
+    "inputs": [
+      {
+        "name": "coupon",
+        "type": "text",
+        "label": "Enter a discount coupon"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "caption": "Task 11: Dropping views",
+    "task": "If views exist in the database, try to delete them. Use the pagination input of the product listing for this. Careful: the input expects a number, so you have to use dev tools to change the input type.",
+    "query": "select product_name from products where product_name = '%{product}%'",
+    "checkQuery": "SELECT EXISTS (SELECT 1 FROM sqlite_master WHERE type = 'view' AND name = 'user_orders') AS view_exists;",
+    "correctAnswer": "0",
+    "inputs": [
+      {
+        "name": "product",
+        "type": "number",
+        "label": "Page number"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "caption": "Task 12: Adding a 100% discount code",
+    "task": "Using the discount code input, try to create a new discount code 'FULLDISCOUNT' worth 100%.",
+    "query": "select count(coupon_code) from coupons where coupon_code = '{coupon}'",
+    "checkQuery": "select coupon_code from coupons where coupon_code = 'FULLDISCOUNT' and discount_amount = '100'",
+    "correctAnswer": "FULLDISCOUNT",
+    "inputs": [
+      {
+        "name": "coupon",
+        "type": "text",
+        "label": "Enter a discount coupon"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "caption": "Task 13: Adding a new user",
+    "task": "Using the username and password inputs, enter a SQL statement that creates a new user with the name 'George' and the password 'strongpassword'. Hint: watch the error messages in the dev tools console to learn which fields of the users table are required.",
+    "query": "select username from users where username = '{name}' and password = '{password}'",
+    "checkQuery": "select username, password from users where username = 'George' and password = 'strongpassword'",
+    "correctAnswer": "George;strongpassword",
+    "inputs": [
+      {
+        "name": "name",
+        "type": "text",
+        "label": "Name"
+      },
+      {
+        "name": "password",
+        "type": "text",
+        "label": "Password"
+      }
+    ]
+  }
+]

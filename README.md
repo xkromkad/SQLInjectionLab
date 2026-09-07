@@ -26,7 +26,7 @@ Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 + shadcn/ui · 
 3. **Database**
    ```bash
    npm run db:push     # create tables
-   npm run db:seed     # load the built-in 13-task Slovak set
+   npm run db:seed     # load the built-in Slovak + English task sets
    ```
 
 4. **Run**
@@ -36,7 +36,7 @@ Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 + shadcn/ui · 
 
 ## How it works
 
-- **Tasks are data** (`lib/seed/builtin-tasks.json`, validated by Zod). Add exercises by editing that file and re-seeding, or import a custom set in the UI (paste JSON + optionally upload a `.db`).
+- **Tasks are data** (`lib/seed/builtin-tasks.json` + `lib/seed/builtin-tasks.en.json`, validated by Zod). Add exercises by editing both files and re-seeding, or import a custom set in the UI (paste JSON + optionally upload a `.db`).
 - **The engine** (`lib/sql/engine.ts`) substitutes user input into `{placeholder}` tokens with naive string replacement — this *is* the intentional vulnerability — and runs it via sql.js in the browser. A fresh DB copy is used per submission so destructive injections don't leak across tasks.
 - **Sessions & attempts** are persisted per user in Neon: a session is one run over a task set; every submitted query is logged and the dashboard / attempts pages summarize progress.
 
@@ -54,4 +54,4 @@ See `CLAUDE.md` for a full architecture map. The previous Quasar/Vue implementat
 
 ## Scripts
 
-`dev` · `build` · `lint` · `db:generate` · `db:push` · `db:migrate` · `db:seed` · `db:studio`
+`dev` · `build` · `lint` · `db:generate` · `db:push` · `db:migrate` · `db:seed` · `db:build-en` · `verify:tasks` · `db:studio`

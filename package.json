@@ -11,7 +11,9 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "tsx lib/db/seed.ts"
+    "db:seed": "tsx lib/db/seed.ts",
+    "db:build-en": "tsx scripts/build-en-db.ts",
+    "verify:tasks": "tsx scripts/verify-task-sets.ts"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.2",

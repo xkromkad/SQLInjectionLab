@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Upload, Layers } from 'lucide-react';
 import { getUserId } from '@/lib/auth-user';
 import { getVisibleTaskSets } from '@/lib/queries/task-sets';
+import type { Locale } from '@/i18n/routing';
 import { Link } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -38,7 +39,7 @@ export default async function TaskSetsPage({
 
   const userId = await getUserId();
   if (!userId) notFound();
-  const sets = await getVisibleTaskSets(userId);
+  const sets = await getVisibleTaskSets(userId, locale as Locale);
 
   return (
     <div>
