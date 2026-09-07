@@ -4,6 +4,7 @@ import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import { labSessions, submissions } from '@/lib/db/schema';
 import { submissionInputSchema } from '@/lib/schemas/submission';
+import { rateLimit, tooManyRequests } from '@/lib/rate-limit';
 
 export async function POST(
   req: Request,
@@ -15,6 +16,11 @@ export async function POST(
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+
+  // A run persists one submission per click; 120/min leaves plenty of head-room
+  // for fast experimentation while capping scripted floods.
+  const limit = rateLimit(`submissions:${session.user.id}`, 120, 60_000);
+  if (!limit.ok) return tooManyRequests(limit.retryAfter);
 
   // Ensure the session exists and belongs to the caller.
   const [lab] = await db

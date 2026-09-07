@@ -2,9 +2,9 @@
 
 import Script from 'next/script';
 
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'G-PW3RL0WSNS';
-const ADSENSE_CLIENT =
-  process.env.NEXT_PUBLIC_ADSENSE_CLIENT || 'ca-pub-3215849122189091';
+// Both are opt-in: with the env var unset the corresponding script never loads.
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 
 /**
  * Google Analytics (gtag) + AdSense with Consent Mode v2.
@@ -12,17 +12,22 @@ const ADSENSE_CLIENT =
  * Consent defaults to "denied" for all storage; the cookie banner calls
  * `gtag('consent', 'update', …)` once the user accepts. Scripts load
  * regardless so Consent Mode can manage cookies/personalization itself.
+ *
+ * The consent defaults are installed whenever either script is enabled, so
+ * AdSense is still covered when analytics is off.
  */
 export function Analytics() {
-  if (!GTM_ID) return null;
+  if (!GTM_ID && !ADSENSE_CLIENT) return null;
 
   return (
     <>
-      <Script
-        id="gtag-src"
-        src={`https://www.googletagmanager.com/gtag/js?id=${GTM_ID}`}
-        strategy="afterInteractive"
-      />
+      {GTM_ID && (
+        <Script
+          id="gtag-src"
+          src={`https://www.googletagmanager.com/gtag/js?id=${GTM_ID}`}
+          strategy="afterInteractive"
+        />
+      )}
       <Script id="gtag-init" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
@@ -36,7 +41,7 @@ export function Analytics() {
             wait_for_update: 500
           });
           gtag('js', new Date());
-          gtag('config', '${GTM_ID}');
+          ${GTM_ID ? `gtag('config', '${GTM_ID}');` : ''}
         `}
       </Script>
       {ADSENSE_CLIENT && (

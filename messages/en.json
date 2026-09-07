@@ -44,6 +44,11 @@
     "back": "Back",
     "languageSwitcher": "Language"
   },
+  "ErrorPage": {
+    "title": "Something went wrong",
+    "description": "We couldn't load this page. Please try again.",
+    "retry": "Try again"
+  },
   "Home": {
     "hero": {
       "badge": "For educational purposes only",
@@ -103,8 +108,7 @@
     "subtitle": "Continue with your account. SQL injection training is available to signed-in users only.",
     "google": "Continue with Google",
     "github": "Continue with GitHub",
-    "termsNotice": "By signing in you agree to our {terms} and confirm you will use this tool for educational purposes only.",
-    "termsLink": "Terms of Use",
+    "termsNotice": "By signing in you agree to our <terms>Terms of Use</terms> and confirm you will use this tool for educational purposes only.",
     "error": "Sign-in failed. Please try again.",
     "backHome": "Back to home"
   },

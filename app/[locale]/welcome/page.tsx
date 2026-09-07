@@ -1,8 +1,9 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ShieldCheck } from 'lucide-react';
 import { redirect } from '@/i18n/navigation';
-import { getDbUser } from '@/lib/auth-user';
+import { getAuthState } from '@/lib/auth-user';
 import { WelcomeForm } from '@/components/auth/welcome-form';
+import { ForceSignOut } from '@/components/auth/force-sign-out';
 import {
   Card,
   CardContent,
@@ -19,10 +20,13 @@ export default async function WelcomePage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const user = await getDbUser();
-  if (!user) {
+  const state = await getAuthState();
+  if (state.status === 'anonymous') {
     redirect({ href: '/login', locale });
-  } else if (user.termsAcceptedAt) {
+  } else if (state.status === 'stale') {
+    // Valid JWT, missing user row — drop the cookie instead of looping to /login.
+    return <ForceSignOut />;
+  } else if (state.user.termsAcceptedAt) {
     redirect({ href: '/dashboard', locale });
   }
 
