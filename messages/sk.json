@@ -44,6 +44,11 @@
     "back": "Späť",
     "languageSwitcher": "Jazyk"
   },
+  "ErrorPage": {
+    "title": "Niečo sa pokazilo",
+    "description": "Túto stránku sa nepodarilo načítať. Skús to prosím znova.",
+    "retry": "Skúsiť znova"
+  },
   "Home": {
     "hero": {
       "badge": "Iba na vzdelávacie účely",
@@ -103,8 +108,7 @@
     "subtitle": "Pokračuj pomocou svojho účtu. Tréning SQL injection je dostupný iba pre prihlásených používateľov.",
     "google": "Pokračovať cez Google",
     "github": "Pokračovať cez GitHub",
-    "termsNotice": "Prihlásením súhlasíš s našimi {terms} a potvrdzuješ, že nástroj použiješ výhradne na vzdelávacie účely.",
-    "termsLink": "Podmienkami používania",
+    "termsNotice": "Prihlásením súhlasíš s našimi <terms>Podmienkami používania</terms> a potvrdzuješ, že nástroj použiješ výhradne na vzdelávacie účely.",
     "error": "Prihlásenie zlyhalo. Skús to znova.",
     "backHome": "Späť na domov"
   },
