@@ -25,13 +25,19 @@ export default auth((req) => {
     (p) => pathname === p || pathname.startsWith(`${p}/`)
   );
 
+  // localePrefix is 'as-needed': the default locale has no prefix, others keep theirs.
+  const prefix = locale && locale !== routing.defaultLocale ? `/${locale}` : '';
+
   if (isProtected && !isLoggedIn) {
-    // localePrefix is 'as-needed': the default locale has no prefix, others keep theirs.
-    const prefix =
-      locale && locale !== routing.defaultLocale ? `/${locale}` : '';
     const loginUrl = new URL(`${prefix}/login`, nextUrl.origin);
     loginUrl.searchParams.set('callbackUrl', nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
+  }
+
+  // A signed-in user has no reason to see the login screen; the (app) layout
+  // then routes them on to /welcome if they still owe Terms acceptance.
+  if (isLoggedIn && pathname === '/login') {
+    return NextResponse.redirect(new URL(`${prefix}/dashboard`, nextUrl.origin));
   }
 
   // Hand off to next-intl for locale negotiation / rewriting.

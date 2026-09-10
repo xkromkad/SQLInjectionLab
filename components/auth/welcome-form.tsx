@@ -17,8 +17,10 @@ export function WelcomeForm() {
   function handleAccept() {
     startTransition(async () => {
       await acceptTerms();
-      router.push('/dashboard');
-      router.refresh();
+      // A single navigation: the action already revalidated, and refreshing the
+      // /welcome route here would race this push (it now server-redirects to
+      // /dashboard too), leaving the transition pending forever.
+      router.replace('/dashboard');
     });
   }
 
